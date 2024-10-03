@@ -3,44 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
+    <title>Credit Application Dashboard</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="tabs-container">
-        <div class="tabs" id="tabs">
-            <!-- Вкладки заявок появятся здесь -->
-        </div>
-        <button id="add-tab" class="add-tab">+</button>
+    <div class="tabs">
+        <button class="add-tab">+ Добавить вкладку</button>
     </div>
 
-    <div class="dashboard">
-        <div class="fields">
-            <input type="text" id="tab-number" placeholder="Номер">
-            <input type="text" id="tab-name" placeholder="Название">
-            <input type="text" id="tab-inn" placeholder="ИНН">
-            <input type="text" id="tab-bg" placeholder="БГ">
-            <textarea id="tab-comments" placeholder="Комментарии"></textarea>
-        </div>
+    <div class="application-fields">
+        <label>Номер заявки: <input type="text" id="application-number"></label>
+        <label>Название: <input type="text" id="client-name"></label>
+        <label>ИНН: <input type="text" id="client-inn"></label>
+        <label>БГ: <input type="text" id="client-bg"></label>
+        <label>Комментарий: <textarea id="comments"></textarea></label>
+        <button class="delete-tab">Удалить вкладку</button>
+    </div>
 
-        <div class="columns">
-            <div class="column" id="zayavka" data-stage="Заявка">Заявка</div>
-            <div class="column" id="dorabotka" data-stage="Доработка">Доработка</div>
-            <div class="column" id="na-podpis" data-stage="На подписании">На подписании</div>
-            <div class="column" id="v-banke" data-stage="В банке">В банке</div>
-            <div class="column" id="soglasovanie" data-stage="Согласование">Согласование</div>
-            <div class="column" id="zavedena" data-stage="Заведена">Заведена</div>
-            <div class="column" id="otkaz" data-stage="Отказ">Отказ</div>
-        </div>
+    <div class="stage-columns">
+        <div class="column" data-stage="заявка">Заявка</div>
+        <div class="column" data-stage="доработка">Доработка</div>
+        <div class="column" data-stage="на подписании">На подписании</div>
+        <div class="column" data-stage="в банке">В банке</div>
+        <div class="column" data-stage="согласование">Согласование</div>
+        <div class="column" data-stage="заведена">Заведена</div>
+        <div class="column" data-stage="отказ">Отказ</div>
+    </div>
 
-        <div class="banks-list">
-            <div class="bank" draggable="true" data-bank="АБС">АБС</div>
-            <div class="bank" draggable="true" data-bank="Альфа">Альфа</div>
-            <div class="bank" draggable="true" data-bank="ТКБ">ТКБ</div>
-            <!-- Добавь другие банки -->
-        </div>
-
-        <button id="delete-tab" class="delete-tab">Удалить</button>
+    <div class="bank-list">
+        <p>Список банков:</p>
+        <div class="bank" data-bank="банк 1">Банк 1</div>
+        <div class="bank" data-bank="банк 2">Банк 2</div>
+        <div class="bank" data-bank="банк 3">Банк 3</div>
+        <!-- Добавьте остальные банки -->
     </div>
 
     <script src="app.js"></script>
