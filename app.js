@@ -1,5 +1,5 @@
 // URL-адрес Google Apps Script API (вставь свой URL сюда)
-const scriptURL = 'ВСТАВЬ_СВОЙ_URL_СЮДА';
+const scriptURL = 'AKfycbxQsQXQCC93_JzopO-e1NIxcob_Z1vQK6hp4vV_TXo';
 
 // Функция для отправки данных в Google Sheets
 function saveToGoogleSheets(tabData) {
