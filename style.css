@@ -1,0 +1,59 @@
+body {
+  background-color: #2b2b2b;
+  color: #f0f0f0;
+  font-family: Arial, sans-serif;
+}
+
+#app {
+  display: flex;
+  flex-direction: column;
+}
+
+#tabs {
+  display: flex;
+  gap: 10px;
+  margin: 20px;
+}
+
+.tab, #add-tab {
+  padding: 10px;
+  background-color: #444;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+#inputs {
+  display: flex;
+  flex-direction: column;
+  margin: 20px;
+}
+
+input, textarea {
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 5px;
+  background-color: #333;
+  color: #fff;
+  border: none;
+}
+
+#stages, #banks {
+  display: flex;
+  gap: 10px;
+}
+
+.stage, .bank {
+  padding: 15px;
+  background-color: #444;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+#delete-tab {
+  margin-top: 20px;
+  padding: 10px;
+  background-color: red;
+  color: white;
+  border-radius: 10px;
+  cursor: pointer;
+}
