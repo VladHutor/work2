@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Credit Dashboard</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="app">
+    <div id="tabs">
+      <div class="tab" id="tab-1">5435</div>
+      <!-- Больше вкладок здесь -->
+      <button id="add-tab">+</button>
+    </div>
+
+    <div id="main-content">
+      <div id="inputs">
+        <input type="text" id="tab-number" placeholder="Номер">
+        <input type="text" id="tab-name" placeholder="Название">
+        <input type="text" id="tab-inn" placeholder="ИНН">
+        <input type="text" id="tab-bg" placeholder="БГ">
+        <textarea id="comments" placeholder="Комментарии"></textarea>
+      </div>
+
+      <div id="stages">
+        <div class="stage" id="stage-zayavka">Заявка</div>
+        <div class="stage" id="stage-dorabotka">Доработка</div>
+        <!-- Другие этапы -->
+      </div>
+
+      <div id="banks">
+        <div class="bank" id="bank-abs">АБС</div>
+        <div class="bank" id="bank-alfa">Альфа</div>
+        <!-- Другие банки -->
+      </div>
+
+      <button id="delete-tab">Удалить вкладку</button>
+    </div>
+  </div>
+  
+  <script src="app.js"></script>
+</body>
+</html>
