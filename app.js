@@ -1,46 +1,73 @@
-// Динамическое добавление вкладок
-const addTabButton = document.getElementById('add-tab');
-let tabCounter = 5436;
+// URL-адрес Google Apps Script API (вставь свой URL сюда)
+const scriptURL = 'ВСТАВЬ_СВОЙ_URL_СЮДА';
 
-addTabButton.addEventListener('click', () => {
-  const newTab = document.createElement('div');
-  newTab.classList.add('tab');
-  newTab.innerText = tabCounter++;
-  document.getElementById('tabs').insertBefore(newTab, addTabButton);
+// Функция для отправки данных в Google Sheets
+function saveToGoogleSheets(tabData) {
+  fetch(scriptURL, {
+    method: 'POST',
+    body: JSON.stringify(tabData),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+  .then(response => response.json())
+  .then(data => {
+    console.log('Success:', data);
+  })
+  .catch((error) => {
+    console.error('Error:', error);
+  });
+}
+
+// Функция для загрузки данных из Google Sheets
+function loadFromGoogleSheets() {
+  fetch(scriptURL)
+    .then(response => response.json())
+    .then(data => {
+      console.log('Loaded data:', data);
+      // Обработай данные здесь, чтобы отобразить их на сайте
+      renderLoadedData(data);
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+    });
+}
+
+// Пример рендера загруженных данных (адаптируй под свою логику)
+function renderLoadedData(data) {
+  data.forEach((row, index) => {
+    const tabNumber = row[0];
+    const tabName = row[1];
+    const tabInn = row[2];
+    const tabBg = row[3];
+    const comments = row[4];
+
+    // Создай элементы вкладок и добавь их на страницу (адаптируй этот код)
+    const tabElement = document.createElement('div');
+    tabElement.className = 'tab';
+    tabElement.innerHTML = `
+      <p>Номер вкладки: ${tabNumber}</p>
+      <p>Название: ${tabName}</p>
+      <p>ИНН: ${tabInn}</p>
+      <p>БГ: ${tabBg}</p>
+      <p>Комментарии: ${comments}</p>
+    `;
+    document.body.appendChild(tabElement);
+  });
+}
+
+// Сохранение данных по нажатию кнопки
+const saveButton = document.getElementById('save-tab');
+saveButton.addEventListener('click', () => {
+  const tabNumber = document.getElementById('tab-number').value;
+  const tabName = document.getElementById('tab-name').value;
+  const tabInn = document.getElementById('tab-inn').value;
+  const tabBg = document.getElementById('tab-bg').value;
+  const comments = document.getElementById('comments').value;
+
+  const tabData = [tabNumber, tabName, tabInn, tabBg, comments];
+  saveToGoogleSheets(tabData);
 });
 
-// Перетаскивание банков в разделы
-const banks = document.querySelectorAll('.bank');
-const stages = document.querySelectorAll('.stage');
-
-banks.forEach(bank => {
-  bank.setAttribute('draggable', true);
-
-  bank.addEventListener('dragstart', (e) => {
-    e.dataTransfer.setData('text/plain', e.target.id);
-  });
-});
-
-stages.forEach(stage => {
-  stage.addEventListener('dragover', (e) => {
-    e.preventDefault();
-  });
-
-  stage.addEventListener('drop', (e) => {
-    const bankId = e.dataTransfer.getData('text');
-    const bankElement = document.getElementById(bankId);
-    stage.appendChild(bankElement);
-    // Добавление полей для номера и суммы
-    if (!bankElement.querySelector('.bank-info')) {
-      const bankInfo = document.createElement('div');
-      bankInfo.classList.add('bank-info');
-      const numberInput = document.createElement('input');
-      numberInput.placeholder = 'Номер в банке';
-      const sumInput = document.createElement('input');
-      sumInput.placeholder = 'Сумма комиссии';
-      bankInfo.appendChild(numberInput);
-      bankInfo.appendChild(sumInput);
-      bankElement.appendChild(bankInfo);
-    }
-  });
-});
+// Загрузка данных при загрузке страницы
+window.onload = loadFromGoogleSheets;
