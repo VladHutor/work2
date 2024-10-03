@@ -1,48 +1,89 @@
-let draggedBank = null;
+let currentTabId = 0;
+let tabsData = {};
 
-document.querySelectorAll('.bank-item').forEach(item => {
-    item.addEventListener('dragstart', function () {
-        draggedBank = this;
+// Создание новой вкладки
+function createTab() {
+    currentTabId++;
+    const newTab = document.createElement('div');
+    newTab.className = 'tab';
+    newTab.id = `tab-${currentTabId}`;
+    newTab.textContent = currentTabId;
+    newTab.addEventListener('click', () => selectTab(currentTabId));
+    document.getElementById('tabs').appendChild(newTab);
+
+    // Создаем данные для новой вкладки
+    tabsData[currentTabId] = {
+        number: '',
+        name: '',
+        inn: '',
+        bg: '',
+        comments: '',
+        banks: {}
+    };
+
+    selectTab(currentTabId);
+}
+
+function selectTab(tabId) {
+    currentTabId = tabId;
+    const data = tabsData[tabId];
+
+    document.getElementById('tab-number').value = data.number;
+    document.getElementById('tab-name').value = data.name;
+    document.getElementById('tab-inn').value = data.inn;
+    document.getElementById('tab-bg').value = data.bg;
+    document.getElementById('tab-comments').value = data.comments;
+}
+
+// Перетаскивание банков
+document.querySelectorAll('.bank').forEach(bank => {
+    bank.addEventListener('dragstart', (e) => {
+        e.dataTransfer.setData('text/plain', e.target.dataset.bank);
     });
 });
 
-document.querySelectorAll('.drop-area').forEach(area => {
-    area.addEventListener('dragover', function (e) {
+document.querySelectorAll('.column').forEach(column => {
+    column.addEventListener('dragover', (e) => {
         e.preventDefault();
     });
 
-    area.addEventListener('drop', function () {
-        if (draggedBank) {
-            this.appendChild(draggedBank);
-            // После добавления банка, создаем поля для ввода номера и суммы
-            const inputNumber = document.createElement('input');
-            inputNumber.type = 'text';
-            inputNumber.placeholder = 'Номер в банке';
-            inputNumber.classList.add('bank-detail');
+    column.addEventListener('drop', (e) => {
+        const bankName = e.dataTransfer.getData('text/plain');
+        const bankElement = document.createElement('div');
+        bankElement.className = 'bank';
+        bankElement.textContent = bankName;
 
-            const inputSum = document.createElement('input');
-            inputSum.type = 'text';
-            inputSum.placeholder = 'Сумма комиссии';
-            inputSum.classList.add('bank-detail');
+        const numberInput = document.createElement('input');
+        numberInput.placeholder = 'Номер в банке';
 
-            this.appendChild(inputNumber);
-            this.appendChild(inputSum);
+        const sumInput = document.createElement('input');
+        sumInput.placeholder = 'Сумма комиссии';
+
+        bankElement.appendChild(numberInput);
+        bankElement.appendChild(sumInput);
+
+        column.appendChild(bankElement);
+
+        // Сохраняем данные банка во вкладке
+        if (!tabsData[currentTabId].banks[bankName]) {
+            tabsData[currentTabId].banks[bankName] = { stage: column.dataset.stage, number: '', sum: '' };
         }
+
+        numberInput.addEventListener('input', (e) => {
+            tabsData[currentTabId].banks[bankName].number = e.target.value;
+        });
+
+        sumInput.addEventListener('input', (e) => {
+            tabsData[currentTabId].banks[bankName].sum = e.target.value;
+        });
     });
 });
 
-// Логика для добавления новой вкладки
-document.querySelector('.tab:last-child').addEventListener('click', function () {
-    const newTab = document.createElement('div');
-    newTab.classList.add('tab');
-    newTab.textContent = 'Новая вкладка';
-    document.querySelector('#tabs').appendChild(newTab);
+document.getElementById('add-tab').addEventListener('click', createTab);
+document.getElementById('delete-tab').addEventListener('click', () => {
+    delete tabsData[currentTabId];
+    document.getElementById(`tab-${currentTabId}`).remove();
 });
 
-// Логика для удаления вкладки
-document.querySelector('#delete-tab').addEventListener('click', function () {
-    const activeTab = document.querySelector('.tab.active');
-    if (activeTab && activeTab.id !== 'tab-1') {
-        activeTab.remove();
-    }
-});
+// Инициализация первой вкладки
+createTab();
