@@ -82,7 +82,7 @@ function saveApplicationData() {
     const bg = clientBgInput.value;
     const comments = commentsInput.value;
 
-    fetch('https://script.google.com/macros/s/AKfycbyQ4RCtpzf5174VNNJUiz-S5gYWLqsARvnvxapUmrw6g5l8aRQjaaBtYBRkbZMHysSpGg/exec', {
+    fetch('https://script.google.com/macros/s/AKfycbwf3JLgCo_Lcs1O9mqWm9qkbhv6Osl90m-k4V1dHjPYuNB2vkT9K8Pm8O1aPVq-NTjQ4Q/exec', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
