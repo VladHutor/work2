@@ -1,89 +1,112 @@
-let currentTabId = 0;
-let tabsData = {};
+const tabsContainer = document.querySelector('.tabs');
+const applicationFields = document.querySelector('.application-fields');
+const deleteTabButton = document.querySelector('.delete-tab');
+const applicationNumberInput = document.getElementById('application-number');
+const clientNameInput = document.getElementById('client-name');
+const clientInnInput = document.getElementById('client-inn');
+const clientBgInput = document.getElementById('client-bg');
+const commentsInput = document.getElementById('comments');
 
-// Создание новой вкладки
-function createTab() {
-    currentTabId++;
-    const newTab = document.createElement('div');
-    newTab.className = 'tab';
-    newTab.id = `tab-${currentTabId}`;
-    newTab.textContent = currentTabId;
-    newTab.addEventListener('click', () => selectTab(currentTabId));
-    document.getElementById('tabs').appendChild(newTab);
+// Функция для создания новой вкладки
+function createTab(tabName) {
+    const tab = document.createElement('div');
+    tab.className = 'tab';
+    tab.textContent = tabName;
 
-    // Создаем данные для новой вкладки
-    tabsData[currentTabId] = {
-        number: '',
-        name: '',
-        inn: '',
-        bg: '',
-        comments: '',
-        banks: {}
-    };
+    // Добавляем функционал перетаскивания для вкладок
+    tab.draggable = true;
+    tab.addEventListener('dragstart', (e) => {
+        e.dataTransfer.setData('text/plain', tabName);
+    });
 
-    selectTab(currentTabId);
+    tabsContainer.appendChild(tab);
+    return tab;
 }
 
-function selectTab(tabId) {
-    currentTabId = tabId;
-    const data = tabsData[tabId];
+// Добавление новой вкладки
+document.querySelector('.add-tab').addEventListener('click', () => {
+    const tabName = `Заявка ${tabsContainer.children.length + 1}`;
+    createTab(tabName);
+});
 
-    document.getElementById('tab-number').value = data.number;
-    document.getElementById('tab-name').value = data.name;
-    document.getElementById('tab-inn').value = data.inn;
-    document.getElementById('tab-bg').value = data.bg;
-    document.getElementById('tab-comments').value = data.comments;
-}
+// Удаление текущей вкладки
+deleteTabButton.addEventListener('click', () => {
+    const tabs = document.querySelectorAll('.tab');
+    if (tabs.length > 0) {
+        tabs[tabs.length - 1].remove(); // Удаляем последнюю вкладку
+    }
+});
 
-// Перетаскивание банков
-document.querySelectorAll('.bank').forEach(bank => {
+// Перетаскивание банков между этапами
+const banks = document.querySelectorAll('.bank');
+const columns = document.querySelectorAll('.column');
+
+banks.forEach(bank => {
+    bank.draggable = true;
+
     bank.addEventListener('dragstart', (e) => {
         e.dataTransfer.setData('text/plain', e.target.dataset.bank);
     });
 });
 
-document.querySelectorAll('.column').forEach(column => {
+columns.forEach(column => {
     column.addEventListener('dragover', (e) => {
         e.preventDefault();
     });
 
     column.addEventListener('drop', (e) => {
+        e.preventDefault();
         const bankName = e.dataTransfer.getData('text/plain');
-        const bankElement = document.createElement('div');
-        bankElement.className = 'bank';
-        bankElement.textContent = bankName;
+        const bankElement = document.querySelector(`.bank[data-bank="${bankName}"]`);
 
-        const numberInput = document.createElement('input');
-        numberInput.placeholder = 'Номер в банке';
+        // Проверяем, что банк можно переместить только один раз
+        if (!column.querySelector(`.bank[data-bank="${bankName}"]`)) {
+            column.appendChild(bankElement);
 
-        const sumInput = document.createElement('input');
-        sumInput.placeholder = 'Сумма комиссии';
-
-        bankElement.appendChild(numberInput);
-        bankElement.appendChild(sumInput);
-
-        column.appendChild(bankElement);
-
-        // Сохраняем данные банка во вкладке
-        if (!tabsData[currentTabId].banks[bankName]) {
-            tabsData[currentTabId].banks[bankName] = { stage: column.dataset.stage, number: '', sum: '' };
+            // Под полем банка добавляем номер заявки и комиссию
+            let bankDetails = document.createElement('div');
+            bankDetails.innerHTML = `
+                <label>Номер в банке: <input type="text" class="bank-application-number"></label>
+                <label>Сумма комиссии: <input type="text" class="bank-commission"></label>
+            `;
+            bankElement.appendChild(bankDetails);
         }
-
-        numberInput.addEventListener('input', (e) => {
-            tabsData[currentTabId].banks[bankName].number = e.target.value;
-        });
-
-        sumInput.addEventListener('input', (e) => {
-            tabsData[currentTabId].banks[bankName].sum = e.target.value;
-        });
     });
 });
 
-document.getElementById('add-tab').addEventListener('click', createTab);
-document.getElementById('delete-tab').addEventListener('click', () => {
-    delete tabsData[currentTabId];
-    document.getElementById(`tab-${currentTabId}`).remove();
-});
+// Функция сохранения данных заявки в Google Sheets
+function saveApplicationData() {
+    const applicationNumber = applicationNumberInput.value;
+    const clientName = clientNameInput.value;
+    const inn = clientInnInput.value;
+    const bg = clientBgInput.value;
+    const comments = commentsInput.value;
 
-// Инициализация первой вкладки
-createTab();
+    fetch('https://script.google.com/macros/s/YOUR_DEPLOYED_SCRIPT_URL/exec', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            applicationNumber: applicationNumber,
+            clientName: clientName,
+            inn: inn,
+            bg: bg,
+            comments: comments,
+        }),
+    })
+    .then(response => response.text())
+    .then(data => {
+        console.log('Success:', data);
+    })
+    .catch((error) => {
+        console.error('Error:', error);
+    });
+}
+
+// Вызываем функцию сохранения при добавлении новой заявки
+applicationNumberInput.addEventListener('input', saveApplicationData);
+clientNameInput.addEventListener('input', saveApplicationData);
+clientInnInput.addEventListener('input', saveApplicationData);
+clientBgInput.addEventListener('input', saveApplicationData);
+commentsInput.addEventListener('input', saveApplicationData);
