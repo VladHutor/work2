@@ -1,98 +1,60 @@
 body {
-    background-color: #1e1e1e;
-    color: white;
     font-family: Arial, sans-serif;
-}
-
-.tabs-container {
+    background-color: #2c2f33;
+    color: white;
+    margin: 0;
+    padding: 0;
     display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    padding: 10px;
+    flex-direction: column;
+    height: 100vh;
 }
 
 .tabs {
     display: flex;
-    gap: 10px;
-}
-
-.tab {
-    background-color: #333;
-    border-radius: 5px;
     padding: 10px;
-    cursor: pointer;
+    background-color: #23272a;
+    overflow-x: auto;
 }
 
 .add-tab {
-    background-color: #444;
-    border: none;
+    background-color: #7289da;
     color: white;
-    padding: 10px;
+    border: none;
+    padding: 5px 10px;
     cursor: pointer;
-    border-radius: 5px;
 }
 
-.dashboard {
+.application-fields {
+    padding: 10px;
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
+}
+
+.stage-columns {
+    display: flex;
+    justify-content: space-around;
     padding: 20px;
 }
 
-.fields {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-input, textarea {
-    background-color: #2d2d2d;
-    border: 1px solid #555;
-    color: white;
-    padding: 10px;
-    border-radius: 5px;
-}
-
-textarea {
-    height: 100px;
-}
-
-.columns {
-    display: flex;
-    gap: 10px;
-    justify-content: center;
-    flex-grow: 1;
-}
-
 .column {
-    background-color: #2d2d2d;
-    border: 1px solid #555;
-    border-radius: 5px;
-    width: 150px;
-    height: 400px;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column-reverse;
+    background-color: #2c2f33;
     padding: 10px;
+    border: 1px solid #444;
+    width: 150px;
+    min-height: 400px;
 }
 
-.banks-list {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+.bank-list {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    padding: 10px;
+    background-color: #23272a;
 }
 
 .bank {
-    background-color: #444;
-    padding: 10px;
-    border-radius: 5px;
-    cursor: grab;
-}
-
-.delete-tab {
-    background-color: red;
-    border: none;
-    color: white;
-    padding: 10px;
-    border-radius: 5px;
+    background-color: #7289da;
+    margin-bottom: 5px;
+    padding: 5px;
     cursor: pointer;
 }
