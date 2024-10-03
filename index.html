@@ -1,71 +1,48 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Кредитный Дешборд</title>
+    <title>Dashboard</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="header">
-        <div id="tabs">
-            <div class="tab active" id="tab-1">54585</div>
-            <div class="tab">Добавить вкладку (+)</div>
+    <div class="tabs-container">
+        <div class="tabs" id="tabs">
+            <!-- Вкладки заявок появятся здесь -->
         </div>
+        <button id="add-tab" class="add-tab">+</button>
     </div>
 
-    <div class="content">
-        <div class="left-panel">
-            <div class="input-section">
-                <input type="text" placeholder="Номер" id="input-number">
-                <input type="text" placeholder="Название" id="input-name">
-                <input type="text" placeholder="ИНН" id="input-inn">
-                <input type="text" placeholder="БГ" id="input-bg">
-                <textarea id="comments" placeholder="Комментарии"></textarea>
-            </div>
-            <div class="banks-list">
-                <h3>Банки</h3>
-                <div class="bank-item" draggable="true">Абс</div>
-                <div class="bank-item" draggable="true">Альфа</div>
-                <div class="bank-item" draggable="true">ТСБ</div>
-                <div class="bank-item" draggable="true">ПСБ</div>
-                <!-- Добавить остальные банки -->
-            </div>
+    <div class="dashboard">
+        <div class="fields">
+            <input type="text" id="tab-number" placeholder="Номер">
+            <input type="text" id="tab-name" placeholder="Название">
+            <input type="text" id="tab-inn" placeholder="ИНН">
+            <input type="text" id="tab-bg" placeholder="БГ">
+            <textarea id="tab-comments" placeholder="Комментарии"></textarea>
         </div>
 
-        <div class="stages">
-            <div class="stage" id="zayavka">
-                <h3>Заявка</h3>
-                <div class="drop-area">Перетащите банк сюда</div>
-            </div>
-            <div class="stage" id="doraabotka">
-                <h3>Доработка</h3>
-                <div class="drop-area">Перетащите банк сюда</div>
-            </div>
-            <div class="stage" id="podpis">
-                <h3>На подписании</h3>
-                <div class="drop-area">Перетащите банк сюда</div>
-            </div>
-            <div class="stage" id="bank">
-                <h3>В банке</h3>
-                <div class="drop-area">Перетащите банк сюда</div>
-            </div>
-            <div class="stage" id="soglasovanie">
-                <h3>Согласование</h3>
-                <div class="drop-area">Перетащите банк сюда</div>
-            </div>
-            <div class="stage" id="zavedena">
-                <h3>Заведена</h3>
-                <div class="drop-area">Перетащите банк сюда</div>
-            </div>
-            <div class="stage" id="otkaz">
-                <h3>Отказ</h3>
-                <div class="drop-area">Перетащите банк сюда</div>
-            </div>
+        <div class="columns">
+            <div class="column" id="zayavka" data-stage="Заявка">Заявка</div>
+            <div class="column" id="dorabotka" data-stage="Доработка">Доработка</div>
+            <div class="column" id="na-podpis" data-stage="На подписании">На подписании</div>
+            <div class="column" id="v-banke" data-stage="В банке">В банке</div>
+            <div class="column" id="soglasovanie" data-stage="Согласование">Согласование</div>
+            <div class="column" id="zavedena" data-stage="Заведена">Заведена</div>
+            <div class="column" id="otkaz" data-stage="Отказ">Отказ</div>
         </div>
+
+        <div class="banks-list">
+            <div class="bank" draggable="true" data-bank="АБС">АБС</div>
+            <div class="bank" draggable="true" data-bank="Альфа">Альфа</div>
+            <div class="bank" draggable="true" data-bank="ТКБ">ТКБ</div>
+            <!-- Добавь другие банки -->
+        </div>
+
+        <button id="delete-tab" class="delete-tab">Удалить</button>
     </div>
 
-    <button id="delete-tab">Удалить вкладку</button>
     <script src="app.js"></script>
 </body>
 </html>
