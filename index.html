@@ -3,60 +3,65 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Тестовый сайт заявок</title>
+    <title>Тестовый сайт с заявкой</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .application {
+            border: 1px solid #ccc;
+            padding: 20px;
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+        }
+        .application h2 {
+            margin-top: 0;
+        }
+        .application p {
+            margin: 10px 0;
+        }
+        .highlight {
+            background-color: yellow;
+        }
+    </style>
 </head>
 <body>
-    <h1>Форма заявки на закупку</h1>
-    <form id="purchaseForm">
-        <label for="needType">Тип потребности:</label>
-        <select id="needType" name="needType">
-            <option value="participation">Участие</option>
-            <option value="execution">Исполнение</option>
-            <option value="overprovision">Переобеспечение</option>
-            <option value="guarantee">Гарантийное обеспечение</option>
-        </select><br><br>
-
-        <label for="purchaseSubject">Предмет закупки:</label>
-        <input type="text" id="purchaseSubject" name="purchaseSubject" required><br><br>
-
-        <label for="maxContractPrice">Начальная максимальная стоимость контракта:</label>
-        <input type="text" id="maxContractPrice" name="maxContractPrice" required><br><br>
-
-        <label for="clientOfferPrice">Стоимость, которую предлагает клиент:</label>
-        <input type="text" id="clientOfferPrice" name="clientOfferPrice" required><br><br>
-
-        <label for="guaranteeAmount">Стоимость гарантии:</label>
-        <input type="text" id="guaranteeAmount" name="guaranteeAmount" required><br><br>
-
-        <label for="guaranteePeriod">Срок гарантии:</label>
-        <input type="text" id="guaranteePeriod" name="guaranteePeriod" required><br><br>
-
-        <button type="submit">Отправить заявку</button>
-    </form>
-
-    <h2>Список заявок</h2>
-    <ul id="applicationsList"></ul>
+    <div class="application">
+        <h2>Заявка от клиента</h2>
+        <p><strong>Тип потребности:</strong> <span id="needType">Участие</span></p>
+        <p><strong>Предмет закупки:</strong> <span id="purchaseSubject">поставка продуктов питания (Сахар)</span></p>
+        <p><strong>Начальная максимальная стоимость контракта:</strong> <span id="maxContractPrice">46 998,00 ₽</span></p>
+        <p><strong>Стоимость, которую предлагает клиент:</strong> <span id="clientOfferPrice">45 540,00 ₽</span></p>
+        <p><strong>Стоимость гарантии:</strong> <span id="guaranteeAmount">5%</span></p>
+        <p><strong>Срок гарантии:</strong> <span id="guaranteePeriod">30.12.2025</span></p>
+    </div>
 
     <script>
-        document.getElementById('purchaseForm').addEventListener('submit', function(event) {
-            event.preventDefault();
+        // Функция для выделения различий
+        function highlightDifferences(elementId, procurementValue) {
+            const element = document.getElementById(elementId);
+            if (element && element.textContent.trim() !== procurementValue) {
+                element.classList.add('highlight');
+                element.title = `На сайте гос. закупок: ${procurementValue}`;
+            }
+        }
 
-            const application = {
-                needType: document.getElementById('needType').value,
-                purchaseSubject: document.getElementById('purchaseSubject').value,
-                maxContractPrice: document.getElementById('maxContractPrice').value,
-                clientOfferPrice: document.getElementById('clientOfferPrice').value,
-                guaranteeAmount: document.getElementById('guaranteeAmount').value,
-                guaranteePeriod: document.getElementById('guaranteePeriod').value
-            };
+        // Пример данных с сайта гос. закупок (для тестирования)
+        const procurementData = {
+            purchaseSubject: 'поставка продуктов питания (Мука)',
+            maxPrice: '47 000,00 ₽',
+            clientOfferPrice: '45 500,00 ₽',
+            guaranteeAmount: '10%',
+        };
 
-            const li = document.createElement('li');
-            li.textContent = JSON.stringify(application);
-            document.getElementById('applicationsList').appendChild(li);
-
-            // Очистка формы
-            document.getElementById('purchaseForm').reset();
-        });
+        // Выделяем различия
+        highlightDifferences('purchaseSubject', procurementData.purchaseSubject);
+        highlightDifferences('maxContractPrice', procurementData.maxPrice);
+        highlightDifferences('clientOfferPrice', procurementData.clientOfferPrice);
+        highlightDifferences('guaranteeAmount', procurementData.guaranteeAmount);
     </script>
 </body>
 </html>
