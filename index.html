@@ -4,38 +4,59 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Тестовый сайт заявок</title>
-    <style>
-        body { font-family: Arial, sans-serif; background-color: #f4f4f4; }
-        table { width: 100%; border-collapse: collapse; background: white; }
-        th, td { border: 1px solid black; padding: 8px; text-align: left; }
-        th { background-color: #ddd; }
-    </style>
 </head>
 <body>
+    <h1>Форма заявки на закупку</h1>
+    <form id="purchaseForm">
+        <label for="needType">Тип потребности:</label>
+        <select id="needType" name="needType">
+            <option value="participation">Участие</option>
+            <option value="execution">Исполнение</option>
+            <option value="overprovision">Переобеспечение</option>
+            <option value="guarantee">Гарантийное обеспечение</option>
+        </select><br><br>
+
+        <label for="purchaseSubject">Предмет закупки:</label>
+        <input type="text" id="purchaseSubject" name="purchaseSubject" required><br><br>
+
+        <label for="maxContractPrice">Начальная максимальная стоимость контракта:</label>
+        <input type="text" id="maxContractPrice" name="maxContractPrice" required><br><br>
+
+        <label for="clientOfferPrice">Стоимость, которую предлагает клиент:</label>
+        <input type="text" id="clientOfferPrice" name="clientOfferPrice" required><br><br>
+
+        <label for="guaranteeAmount">Стоимость гарантии:</label>
+        <input type="text" id="guaranteeAmount" name="guaranteeAmount" required><br><br>
+
+        <label for="guaranteePeriod">Срок гарантии:</label>
+        <input type="text" id="guaranteePeriod" name="guaranteePeriod" required><br><br>
+
+        <button type="submit">Отправить заявку</button>
+    </form>
+
     <h2>Список заявок</h2>
-    <table>
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Потребность</th>
-                <th>Объект закупки</th>
-                <th>Начальная цена</th>
-                <th>Предложенная цена</th>
-                <th>Стоимость гарантии</th>
-                <th>Срок гарантии</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>2</td>
-                <td>Исполнение</td>
-                <td>Строительные материалы</td>
-                <td>1 200 000 ₽</td>
-                <td>1 150 000 ₽</td>
-                <td>5%</td>
-                <td>с 01.03.2025 по 01.01.2026</td>
-            </tr>
-        </tbody>
-    </table>
+    <ul id="applicationsList"></ul>
+
+    <script>
+        document.getElementById('purchaseForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const application = {
+                needType: document.getElementById('needType').value,
+                purchaseSubject: document.getElementById('purchaseSubject').value,
+                maxContractPrice: document.getElementById('maxContractPrice').value,
+                clientOfferPrice: document.getElementById('clientOfferPrice').value,
+                guaranteeAmount: document.getElementById('guaranteeAmount').value,
+                guaranteePeriod: document.getElementById('guaranteePeriod').value
+            };
+
+            const li = document.createElement('li');
+            li.textContent = JSON.stringify(application);
+            document.getElementById('applicationsList').appendChild(li);
+
+            // Очистка формы
+            document.getElementById('purchaseForm').reset();
+        });
+    </script>
 </body>
 </html>
