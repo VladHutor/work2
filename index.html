@@ -3,63 +3,101 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Тестовый сайт с заявкой</title>
+    <title>Test CRM</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             margin: 20px;
+            background-color: #f5f5f5;
         }
-        .application {
-            border: 1px solid #ccc;
+        .order-container {
+            background: white;
             padding: 20px;
-            max-width: 600px;
-            margin: 0 auto;
-            background-color: #f9f9f9;
             border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            max-width: 800px;
+            margin: 0 auto;
         }
-        .application h2 {
-            margin-top: 0;
+        .sc-hIZtrq.zkjam {
+            display: flex;
+            margin-bottom: 15px;
+            padding: 10px;
+            border-bottom: 1px solid #eee;
         }
-        .application p {
-            margin: 10px 0;
+        .sc-kPlbPs.glkzdN {
+            font-weight: bold;
+            width: 200px;
+            color: #333;
+        }
+        .sc-jPZDDJ.jOBqmB {
+            flex-grow: 1;
+            color: #555;
         }
         .highlight {
             background-color: yellow;
         }
+        .match {
+            background-color: lightgreen;
+        }
+        .warning {
+            background-color: #ffcccc;
+            border: 1px solid red;
+        }
     </style>
 </head>
 <body>
-    <div class="application">
-        <h2>Заявка от клиента</h2>
-        <p><strong>Предмет закупки:</strong> <span id="purchaseSubject">Поставка расходных материалов (Проводник для доступа к коронарным/периферическим сосудам, одноразового использования)</span></p>
-        <p><strong>Максимальная цена контракта:</strong> <span id="maxContractPrice">749250,00</span></p>
-        <p><strong>Срок исполнения контракта:</strong> <span id="contractExecutionDate">20.12.2025</span></p>
-        <p><strong>Размер обеспечения:</strong> <span id="guaranteeAmount">10%</span></p>
+    <div class="order-container">
+        <h1>Заказ №12345</h1>
+        
+        <div class="sc-hIZtrq zkjam">
+            <div class="sc-kPlbPs glkzdN">Предмет контракта</div>
+            <div class="sc-jPZDDJ jOBqmB">Поставка оргтехники для офиса</div>
+        </div>
+        
+        <div class="sc-hIZtrq zkjam">
+            <div class="sc-kPlbPs glkzdN">Начальная цена</div>
+            <div class="sc-jPZDDJ jOBqmB">1 250 000 руб.</div>
+        </div>
+        
+        <div class="sc-hIZtrq zkjam">
+            <div class="sc-kPlbPs glkzdN">Сумма БГ</div>
+            <div class="sc-jPZDDJ jOBqmB">125 000 руб.</div>
+        </div>
+        
+        <div class="sc-hIZtrq zkjam">
+            <div class="sc-kPlbPs glkzdN">Номер извещения</div>
+            <div class="sc-jPZDDJ jOBqmB">12345678901234567890</div>
+        </div>
+        
+        <div class="sc-hIZtrq zkjam">
+            <div class="sc-kPlbPs glkzdN">Срок гарантии</div>
+            <div class="sc-jPZDDJ jOBqmB">20 дней</div>
+        </div>
     </div>
 
     <script>
-        // Функция для выделения различий
-        function highlightDifferences(elementId, procurementValue) {
-            const element = document.getElementById(elementId);
-            if (element && element.textContent.trim() !== procurementValue) {
-                element.classList.add('highlight');
-                element.title = `На сайте гос. закупок: ${procurementValue}`;
-            }
-        }
-
-        // Пример данных с сайта гос. закупок (для тестирования)
-        const procurementData = {
-            purchaseSubject: 'поставка продуктов питания (Мука)',
-            maxPrice: '47 000,00 ₽',
-            clientOfferPrice: '45 500,00 ₽',
-            guaranteeAmount: '10%',
+        // Имитация данных госзакупок (для теста можно вставить реальную ссылку)
+        const testProcurementData = {
+            purchaseSubject: "Поставка оргтехники для офиса",
+            maxPrice: "1250000руб.",
+            guaranteeAmount: "125000руб.",
+            noticeNumber: "12345678901234567890"
         };
 
-        // Выделяем различия
-        highlightDifferences('purchaseSubject', procurementData.purchaseSubject);
-        highlightDifferences('maxContractPrice', procurementData.maxPrice);
-        highlightDifferences('clientOfferPrice', procurementData.clientOfferPrice);
-        highlightDifferences('guaranteeAmount', procurementData.guaranteeAmount);
+        // Функция для тестирования скрипта
+        function testScript() {
+            // Эмулируем вызов compareParameters с тестовыми данными
+            window.compareParameters = window.compareParameters || function(url) {
+                console.log("Тестирование скрипта с URL:", url);
+                window.compareAndHighlight('Предмет контракта', 
+                    document.querySelector('.sc-hIZtrq.zkjam .sc-jPZDDJ.jOBqmB').textContent.trim(), 
+                    testProcurementData.purchaseSubject);
+                // Аналогично для других полей...
+            };
+        }
+
+        // Запускаем тест при загрузке
+        window.onload = testScript;
     </script>
 </body>
 </html>
